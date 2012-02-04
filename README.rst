@@ -23,6 +23,7 @@ Varnish redirect operation to easy.
 
 before(via: https://www.varnish-cache.org/trac/wiki/VCLExampleRedirectInVCL)
 ::
+  
   sub vcl_recv {
     if (req.http.user-agent ~ "iP(hone|od)") {
       error 750 "Moved Temporarily";
@@ -39,6 +40,7 @@ before(via: https://www.varnish-cache.org/trac/wiki/VCLExampleRedirectInVCL)
 
 after
 ::
+  
   import rewrite;
   sub vcl_recv {
      if (req.http.user-agent ~ "iP(hone|od)") {
