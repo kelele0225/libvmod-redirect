@@ -1,3 +1,3 @@
 Module rewrite
 Init init_function
-Function INT location(PRIV_CALL,INT,STRING_LIST)
+Function INT location(PRIV_VCL,INT,STRING_LIST)
