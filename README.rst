@@ -1,5 +1,5 @@
 ============
-vmod_example
+vmod_rewrite
 ============
 
 ----------------------
@@ -20,7 +20,9 @@ DESCRIPTION
 ===========
 
 Varnish redirect operation to easy.
+
 before(via: https://www.varnish-cache.org/trac/wiki/VCLExampleRedirectInVCL)
+-----
 ::
   sub vcl_recv {
      if (req.http.user-agent ~ "iP(hone|od)") {
@@ -37,11 +39,12 @@ before(via: https://www.varnish-cache.org/trac/wiki/VCLExampleRedirectInVCL)
   }
 
 after
+-----
 ::
   import rewrite;
   sub vcl_recv {
      if (req.http.user-agent ~ "iP(hone|od)") {
-        error(rewrite.location(302,"http://www.example.com/iphoneversion/"));
+        error(rewrite.location(302,"http://www.example.com/iphoneversion/"),"Moved Temporarily");
      }
   }
 
@@ -117,4 +120,4 @@ COPYRIGHT
 This document is licensed under the same license as the
 libvmod-example project. See LICENSE for details.
 
-* Copyright (c) 2012 Syohei Tanaka,xcir
+* Copyright (c) 2012 Syohei Tanaka(@xcir)

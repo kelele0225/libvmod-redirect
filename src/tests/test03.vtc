@@ -9,10 +9,13 @@ varnish v1 -vcl+backend {
 	import rewrite from "${vmod_topbuild}/src/.libs/libvmod_rewrite.so";
 
 	sub vcl_recv {
-		error(rewrite.location(302,"http://www.example.com/iphoneversion/"));
+		set req.http.xx = rewrite.location(302,"http://www.example.com/iphoneversion/");
+		remove req.http.X-VMODREDIRECT-Location;
+		error(302,"hoge");
 	}
 	sub vcl_error {
 		set obj.http.test = "test";
+		set obj.http.location ="http://www.example.com/";
 	}
 } -start
 
@@ -20,8 +23,8 @@ client c1 {
 	txreq -url "/"
 	rxresp
 	expect resp.status == 302
-	expect resp.http.location == "http://www.example.com/iphoneversion/"
-	expect resp.http.test != "test"
+	expect resp.http.location == "http://www.example.com/"
+	expect resp.http.test == "test"
 }
 
 client c1 -run

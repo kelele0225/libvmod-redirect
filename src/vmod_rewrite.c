@@ -20,9 +20,10 @@ static int vmod_Hook_vcl_error(struct sess *sp){
 		status == 303
 	){
 		char * location = VRT_GetHdr(sp, HDR_REQ, "\030X-VMODREDIRECT-Location:");
-		if(location != 0)
+		if(location != 0){
 			VRT_SetHdr(sp, HDR_OBJ, "\011Location:" , location , vrt_magic_string_end);
-		VRT_done(sp, VCL_RET_DELIVER);
+			VRT_done(sp, VCL_RET_DELIVER);
+		}
 	}
 
 	return(vmod_redirect_Hook_vcl_error(sp));
@@ -46,7 +47,7 @@ vmod_location(struct sess *sp, struct vmod_priv *priv, int status, const char*p,
 			sp->vcl->error_func = vmod_Hook_vcl_error;
 		}
 
-		//get location
+		//build location string
 		va_list ap;
 		char *location;
 		va_start(ap, p);
