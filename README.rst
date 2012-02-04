@@ -22,31 +22,29 @@ DESCRIPTION
 Varnish redirect operation to easy.
 
 before(via: https://www.varnish-cache.org/trac/wiki/VCLExampleRedirectInVCL)
------
-  ::
-    sub vcl_recv {
-       if (req.http.user-agent ~ "iP(hone|od)") {
-          error 750 "Moved Temporarily";
-       }
-    }
-    
-    sub vcl_error {
-        if (obj.status == 750) {
-            set obj.http.Location = "http://www.example.com/iphoneversion/";
-        set obj.status = 302;
-            return(deliver);
-        }
-    }
+        ::
+                sub vcl_recv {
+                  if (req.http.user-agent ~ "iP(hone|od)") {
+                    error 750 "Moved Temporarily";
+                  }
+                }
+
+                sub vcl_error {
+                  if (obj.status == 750) {
+                    set obj.http.Location = "http://www.example.com/iphoneversion/";
+                    set obj.status = 302;
+                    return(deliver);
+                  }
+                }
 
 after
------
-  ::
-    import rewrite;
-    sub vcl_recv {
-       if (req.http.user-agent ~ "iP(hone|od)") {
-          error(rewrite.location(302,"http://www.example.com/iphoneversion/"),"Moved Temporarily");
-       }
-    }
+        ::
+                import rewrite;
+                sub vcl_recv {
+                   if (req.http.user-agent ~ "iP(hone|od)") {
+                      error(rewrite.location(302,"http://www.example.com/iphoneversion/"),"Moved Temporarily");
+                   }
+                }
 
 FUNCTIONS
 =========
