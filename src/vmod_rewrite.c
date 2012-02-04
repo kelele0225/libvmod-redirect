@@ -22,6 +22,7 @@ static int vmod_Hook_vcl_error(struct sess *sp){
 		char * location = VRT_GetHdr(sp, HDR_REQ, "\030X-VMODREDIRECT-Location:");
 		if(location != 0)
 			VRT_SetHdr(sp, HDR_OBJ, "\011Location:" , location , vrt_magic_string_end);
+		VRT_done(sp, VCL_RET_DELIVER);
 	}
 
 	return(vmod_redirect_Hook_vcl_error(sp));

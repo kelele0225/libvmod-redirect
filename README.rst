@@ -3,44 +3,66 @@ vmod_example
 ============
 
 ----------------------
-Varnish Example Module
+Varnish Rewrite Module
 ----------------------
 
-:Author: Martin Blix Grydeland
-:Date: 2011-05-26
-:Version: 1.0
+:Author: Syohei Tanaka(@xcir)
+:Date: 2012-02-05
+:Version: 0.1
 :Manual section: 3
 
 SYNOPSIS
 ========
 
-import example;
+import rewrite;
 
 DESCRIPTION
 ===========
 
-Example Varnish vmod demonstrating how to write an out-of-tree Varnish vmod.
+Varnish redirect operation to easy.
+before(via: https://www.varnish-cache.org/trac/wiki/VCLExampleRedirectInVCL)
+::
+  sub vcl_recv {
+     if (req.http.user-agent ~ "iP(hone|od)") {
+        error 750 "Moved Temporarily";
+     }
+  }
+  
+  sub vcl_error {
+      if (obj.status == 750) {
+          set obj.http.Location = "http://www.example.com/iphoneversion/";
+      set obj.status = 302;
+          return(deliver);
+      }
+  }
 
-Implements the traditional Hello World as a vmod.
+after
+::
+  import rewrite;
+  sub vcl_recv {
+     if (req.http.user-agent ~ "iP(hone|od)") {
+        error(rewrite.location(302,"http://www.example.com/iphoneversion/"));
+     }
+  }
 
 FUNCTIONS
 =========
 
-hello
+location
 -----
 
 Prototype
         ::
 
-                hello(STRING S)
+                location(INT status , STRING location)
 Return value
-	STRING
+	INT
 Description
-	Returns "Hello, " prepended to S
+	send location header(Location: XXXXXX)
 Example
         ::
 
-                set resp.http.hello = example.hello("World");
+                error(rewrite.location(302,"http://xcir.net/"));
 
 INSTALLATION
 ============
@@ -74,11 +96,11 @@ Make targets:
 
 In your VCL you could then use this vmod along the following lines::
         
-        import example;
+        import rewrite;
 
-        sub vcl_deliver {
-                # This sets resp.http.hello to "Hello, World"
-                set resp.http.hello = example.hello("World");
+        sub vcl_recv {
+                //
+                error(rewrite.location(302,"http://xcir.net/"));
         }
 
 HISTORY
@@ -87,10 +109,12 @@ HISTORY
 This manual page was released as part of the libvmod-example package,
 demonstrating how to create an out-of-tree Varnish vmod.
 
+File layout and configuration based on libvmod-example.
+
 COPYRIGHT
 =========
 
 This document is licensed under the same license as the
 libvmod-example project. See LICENSE for details.
 
-* Copyright (c) 2011 Varnish Software
+* Copyright (c) 2012 Syohei Tanaka,xcir

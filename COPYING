@@ -1,7 +1,5 @@
+libvmod-rewrite, easy rewrite for Varnish:
+Copyright (c) 2012 Syohei Tanaka,xcir
+
+File layout and configuration based on libvmod-example:
 Copyright (c) 2011 Varnish Software AS
-...
-See LICENSE for details.
-
-You're free to use and distribute this under terms in the
-LICENSE. Please add your relevant copyright statements.
-
