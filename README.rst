@@ -119,5 +119,6 @@ libvmod-rewrite project. See LICENSE for details.
 
 * Copyright (c) 2012 Syohei Tanaka(@xcir)
 
-File layout and configuration based on libvmod-example:
+File layout and configuration based on libvmod-example
+
 * Copyright (c) 2011 Varnish Software AS
