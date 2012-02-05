@@ -4,7 +4,8 @@
 #include "bin/varnishd/cache.h"
 
 #include "vcc_if.h"
-vcl_func_f *vmod_redirect_Hook_vcl_error;
+static vcl_func_f 			*vmod_redirect_Hook_vcl_error = NULL;
+static pthread_mutex_t		tmutex = PTHREAD_MUTEX_INITIALIZER;
 
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
@@ -32,7 +33,7 @@ static int vmod_Hook_vcl_error(struct sess *sp){
 
 
 int 
-vmod_location(struct sess *sp, struct vmod_priv *priv, int status, const char*p,...)
+vmod_location(struct sess *sp, int status, const char*p,...)
 {
 	if (
 		status == 301 ||
@@ -40,12 +41,24 @@ vmod_location(struct sess *sp, struct vmod_priv *priv, int status, const char*p,
 		status == 303
 	){
 
+		if(vmod_redirect_Hook_vcl_error == NULL)
+		{
+			AZ(pthread_mutex_lock(&tmutex));
+			if(vmod_redirect_Hook_vcl_error == NULL)
+			{
+				vmod_redirect_Hook_vcl_error = sp->vcl->error_func;
+				sp->vcl->error_func = vmod_Hook_vcl_error;
+			}
+			AZ(pthread_mutex_unlock(&tmutex));
+		}
+		/*
 		if (priv->priv == NULL) {
 			priv->priv = malloc(1);
 			priv->free = free;
 			vmod_redirect_Hook_vcl_error = sp->vcl->error_func;
 			sp->vcl->error_func = vmod_Hook_vcl_error;
 		}
+		*/
 
 		//build location string
 		va_list ap;

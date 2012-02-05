@@ -8,7 +8,7 @@ Varnish Rewrite Module
 
 :Author: Syohei Tanaka(@xcir)
 :Date: 2012-02-05
-:Version: 0.1
+:Version: 0.2
 :Manual section: 3
 
 SYNOPSIS
@@ -109,6 +109,7 @@ In your VCL you could then use this vmod along the following lines::
 HISTORY
 =======
 
+Version 0.2: Bug fix. 
 Version 0.1: Initial version.
 
 COPYRIGHT

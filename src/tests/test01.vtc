@@ -9,7 +9,7 @@ varnish v1 -vcl+backend {
 	import rewrite from "${vmod_topbuild}/src/.libs/libvmod_rewrite.so";
 
 	sub vcl_recv {
-		error(rewrite.location(302,"http://www.example.com/iphoneversion/"));
+		error(rewrite.location(302,"http://www.example.com/iphoneversion" + req.url));
 	}
 	sub vcl_error {
 		set obj.http.test = "test";
@@ -23,5 +23,21 @@ client c1 {
 	expect resp.http.location == "http://www.example.com/iphoneversion/"
 	expect resp.http.test != "test"
 }
+client c2 {
+	txreq -url "/a"
+	rxresp
+	expect resp.status == 302
+	expect resp.http.location == "http://www.example.com/iphoneversion/a"
+	expect resp.http.test != "test"
+}
+client c3 {
+	txreq -url "/b"
+	rxresp
+	expect resp.status == 302
+	expect resp.http.location == "http://www.example.com/iphoneversion/b"
+	expect resp.http.test != "test"
+}
 
 client c1 -run
+client c2 -run
+client c3 -run
