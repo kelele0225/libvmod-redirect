@@ -109,7 +109,8 @@ In your VCL you could then use this vmod along the following lines::
 HISTORY
 =======
 
-Version 0.2: Bug fix. 
+Version 0.2: Bug fix.
+ 
 Version 0.1: Initial version.
 
 COPYRIGHT
