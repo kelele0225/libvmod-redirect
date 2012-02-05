@@ -4,8 +4,8 @@
 #include "bin/varnishd/cache.h"
 
 #include "vcc_if.h"
-static vcl_func_f 			*vmod_redirect_Hook_vcl_error = NULL;
-static pthread_mutex_t		tmutex = PTHREAD_MUTEX_INITIALIZER;
+static vcl_func_f         *vmod_redirect_Hook_vcl_error = NULL;
+static pthread_mutex_t    vmod_redirect_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
@@ -43,22 +43,14 @@ vmod_location(struct sess *sp, int status, const char*p,...)
 
 		if(vmod_redirect_Hook_vcl_error == NULL)
 		{
-			AZ(pthread_mutex_lock(&tmutex));
+			AZ(pthread_mutex_lock(&vmod_redirect_mutex));
 			if(vmod_redirect_Hook_vcl_error == NULL)
 			{
 				vmod_redirect_Hook_vcl_error = sp->vcl->error_func;
 				sp->vcl->error_func = vmod_Hook_vcl_error;
 			}
-			AZ(pthread_mutex_unlock(&tmutex));
+			AZ(pthread_mutex_unlock(&vmod_redirect_mutex));
 		}
-		/*
-		if (priv->priv == NULL) {
-			priv->priv = malloc(1);
-			priv->free = free;
-			vmod_redirect_Hook_vcl_error = sp->vcl->error_func;
-			sp->vcl->error_func = vmod_Hook_vcl_error;
-		}
-		*/
 
 		//build location string
 		va_list ap;
