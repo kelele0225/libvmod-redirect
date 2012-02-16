@@ -6,7 +6,7 @@ Makefile.in
 *.lo
 *.la
 *~
-vmod_rewrite.3
+vmod_redirect.3
 
 /aclocal.m4
 /autom4te.cache/

@@ -1,4 +1,4 @@
-varnishtest "Test rewrite vmod"
+varnishtest "Test redirect vmod"
 
 server s1 {
        rxreq
@@ -6,10 +6,10 @@ server s1 {
 } -start
 
 varnish v1 -vcl+backend {
-	import rewrite from "${vmod_topbuild}/src/.libs/libvmod_rewrite.so";
+	import redirect from "${vmod_topbuild}/src/.libs/libvmod_redirect.so";
 
 	sub vcl_recv {
-		error(rewrite.location(302,"http://www.example.com/iphoneversion" + req.url));
+		error(redirect.location(302,"http://www.example.com/iphoneversion" + req.url));
 	}
 	sub vcl_error {
 		set obj.http.test = "test";

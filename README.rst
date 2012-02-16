@@ -1,20 +1,20 @@
 ============
-vmod_rewrite
+vmod_redirect
 ============
 
-----------------------
-Varnish Rewrite Module
-----------------------
+-----------------------
+Varnish Redirect Module
+-----------------------
 
 :Author: Syohei Tanaka(@xcir)
 :Date: 2012-02-05
-:Version: 0.2
+:Version: 0.3
 :Manual section: 3
 
 SYNOPSIS
 ========
 
-import rewrite;
+import redirect;
 
 DESCRIPTION
 ===========
@@ -43,10 +43,10 @@ after
 --------------
 ::
   
-  import rewrite;
+  import redirect;
   sub vcl_recv {
      if (req.http.user-agent ~ "iP(hone|od)") {
-        error(rewrite.location(302,"http://www.example.com/iphoneversion/") , "Moved Temporarily");
+        error(redirect.location(302,"http://www.example.com/iphoneversion/") , "Moved Temporarily");
      }
   }
 
@@ -68,10 +68,10 @@ Example
         ::
 
                 //no reason
-                error(rewrite.location(302,"http://xcir.net/"));
+                error(redirect.location(302,"http://xcir.net/"));
 
                 //use reason
-                error(rewrite.location(302,"http://xcir.net/") , "Moved Temporarily");
+                error(redirect.location(302,"http://xcir.net/") , "Moved Temporarily");
 
 INSTALLATION
 ============
@@ -99,16 +99,18 @@ Make targets:
 
 In your VCL you could then use this vmod along the following lines::
         
-        import rewrite;
+        import redirect;
 
         sub vcl_recv {
                 //redirect to my hp
-                error(rewrite.location(302,"http://xcir.net/"));
+                error(redirect.location(302,"http://xcir.net/"));
         }
 
 HISTORY
 =======
 
+Version 0.3: Change name vmod_rewrite -> vmod_redirect
+ 
 Version 0.2: Bug fix.
  
 Version 0.1: Initial version.
@@ -117,7 +119,7 @@ COPYRIGHT
 =========
 
 This document is licensed under the same license as the
-libvmod-rewrite project. See LICENSE for details.
+libvmod-redirect project. See LICENSE for details.
 
 * Copyright (c) 2012 Syohei Tanaka(@xcir)
 

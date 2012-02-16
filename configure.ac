@@ -1,8 +1,8 @@
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (c) 2012 Syohei Tanaka(@xcir)])
-AC_INIT([libvmod-rewrite], [trunk])
+AC_INIT([libvmod-redirect], [trunk])
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_SRCDIR(src/vmod_rewrite.vcc)
+AC_CONFIG_SRCDIR(src/vmod_redirect.vcc)
 AM_CONFIG_HEADER(config.h)
 
 AC_CANONICAL_SYSTEM
