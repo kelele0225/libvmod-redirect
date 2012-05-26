@@ -1,14 +1,14 @@
-============
+==============
 vmod_redirect
-============
+==============
 
 -----------------------
 Varnish Redirect Module
 -----------------------
 
 :Author: Syohei Tanaka(@xcir)
-:Date: 2012-02-17
-:Version: 0.3
+:Date: 2012-05-27
+:Version: 0.4
 :Manual section: 3
 
 SYNOPSIS
@@ -109,6 +109,8 @@ In your VCL you could then use this vmod along the following lines::
 HISTORY
 =======
 
+Version 0.4: Bug fix:Can not be redirected in a second function call to extremely rare.
+ 
 Version 0.3: Change name vmod_rewrite -> vmod_redirect
  
 Version 0.2: Bug fix.

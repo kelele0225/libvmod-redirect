@@ -41,7 +41,7 @@ vmod_location(struct sess *sp, int status, const char*p,...)
 		status == 303
 	){
 
-		if(vmod_redirect_Hook_vcl_error == NULL)
+		if(vmod_redirect_Hook_vcl_error == NULL || (vmod_redirect_Hook_vcl_error == sp->vcl->error_func))
 		{
 			AZ(pthread_mutex_lock(&vmod_redirect_mutex));
 			if(vmod_redirect_Hook_vcl_error == NULL)

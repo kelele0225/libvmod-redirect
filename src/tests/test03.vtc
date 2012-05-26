@@ -26,5 +26,20 @@ client c1 {
 	expect resp.http.location == "http://www.example.com/"
 	expect resp.http.test == "test"
 }
-
+client c2 {
+	txreq -url "/"
+	rxresp
+	expect resp.status == 302
+	expect resp.http.location == "http://www.example.com/"
+	expect resp.http.test == "test"
+}
+client c3 {
+	txreq -url "/"
+	rxresp
+	expect resp.status == 302
+	expect resp.http.location == "http://www.example.com/"
+	expect resp.http.test == "test"
+}
 client c1 -run
+client c2 -run
+client c3 -run
