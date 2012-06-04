@@ -106,6 +106,14 @@ In your VCL you could then use this vmod along the following lines::
                 error(redirect.location(302,"http://xcir.net/"));
         }
 
+Tested Version
+===========
+
+* 3.0.1
+* 3.0.2
+* 3.0.2-streaming
+* 3.0.3-rc1
+
 HISTORY
 =======
 
