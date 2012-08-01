@@ -4,8 +4,10 @@
 #include "bin/varnishd/cache.h"
 
 #include "vcc_if.h"
+
+static unsigned           hook_done                     = 0;
 static vcl_func_f         *vmod_redirect_Hook_vcl_error = NULL;
-static pthread_mutex_t    vmod_redirect_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t    vmod_redirect_mutex           = PTHREAD_MUTEX_INITIALIZER;
 
 int
 init_function(struct vmod_priv *priv, const struct VCL_conf *conf)
@@ -41,13 +43,14 @@ vmod_location(struct sess *sp, int status, const char*p,...)
 		status == 303
 	){
 
-		if(vmod_redirect_Hook_vcl_error == NULL || (vmod_redirect_Hook_vcl_error == sp->vcl->error_func))
-		{
+		if(hook_done == 1 && sp->vcl->error_func != vmod_Hook_vcl_error) hook_done = 0;
+		if(hook_done == 0){
 			AZ(pthread_mutex_lock(&vmod_redirect_mutex));
-			if(vmod_redirect_Hook_vcl_error == NULL)
+			if(hook_done == 0)
 			{
 				vmod_redirect_Hook_vcl_error = sp->vcl->error_func;
 				sp->vcl->error_func = vmod_Hook_vcl_error;
+				hook_done = 1;
 			}
 			AZ(pthread_mutex_unlock(&vmod_redirect_mutex));
 		}

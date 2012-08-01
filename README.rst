@@ -8,7 +8,7 @@ Varnish Redirect Module
 
 :Author: Syohei Tanaka(@xcir)
 :Date: 2012-05-27
-:Version: 0.4
+:Version: 0.5
 :Manual section: 3
 
 SYNOPSIS
@@ -107,7 +107,7 @@ In your VCL you could then use this vmod along the following lines::
         }
 
 Tested Version
-===========
+=================
 
 * 3.0.1
 * 3.0.2
@@ -116,6 +116,8 @@ Tested Version
 
 HISTORY
 =======
+
+Version 0.5: Bug fix: when you vcl reloaded, hook method come off.
 
 Version 0.4: Bug fix:Can not be redirected in a second function call to extremely rare.
  
