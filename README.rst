@@ -7,7 +7,7 @@ Varnish Redirect Module
 -----------------------
 
 :Author: Syohei Tanaka(@xcir)
-:Date: 2012-05-27
+:Date: 2012-08-02
 :Version: 0.5
 :Manual section: 3
 
