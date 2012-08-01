@@ -117,7 +117,7 @@ Tested Version
 HISTORY
 =======
 
-Version 0.5: Bug fix: when you vcl reloaded, hook method come off.
+Version 0.5: Bug fix: when you vcl reloaded, hook method be off.
 
 Version 0.4: Bug fix:Can not be redirected in a second function call to extremely rare.
  
